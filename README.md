@@ -1,9 +1,9 @@
 # ImageProcessor
 
 ## Set Up
-Download this repository
-Add images files to the solutions 'ImageProcessor/ProductImages' folder (images not included due to size)
-Image files can be downloaded here - https://www.masterofmalt.com/external_resources/dev_interview/product_images.zip
+* Download this repository
+* Add images files to the solutions 'ImageProcessor/ProductImages' folder (images not included due to size)
+* Image files can be downloaded here - https://www.masterofmalt.com/external_resources/dev_interview/product_images.zip
 
 
 ## Use
