@@ -79,11 +79,14 @@ namespace ImageProcessor.Models
             {
                 using (Graphics grp = Graphics.FromImage(img))
                 {
-                    Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
-                    Font goodFont = FindFont(grp, Watermark, img.Size, new System.Drawing.Font("Arial", 200, FontStyle.Bold, GraphicsUnit.Pixel));
-                    SizeF textSize = new SizeF();
-                    textSize = grp.MeasureString(Watermark, goodFont);
-                    grp.DrawString(Watermark, goodFont, brush, (img.Width / 2) - (textSize.Width / 2), (img.Height / 2) - (textSize.Height / 2));
+                    if (Watermark != "NULL")
+                    {
+                        Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 255));
+                        Font goodFont = FindFont(grp, Watermark, img.Size, new System.Drawing.Font("Arial", 200, FontStyle.Bold, GraphicsUnit.Pixel));
+                        SizeF textSize = new SizeF();
+                        textSize = grp.MeasureString(Watermark, goodFont);
+                        grp.DrawString(Watermark, goodFont, brush, (img.Width / 2) - (textSize.Width / 2), (img.Height / 2) - (textSize.Height / 2));
+                    }
                     using (MemoryStream memoryStream = new MemoryStream())
                     {
                         memoryStream.Position = 0;

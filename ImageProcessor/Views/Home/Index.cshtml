@@ -11,7 +11,7 @@
                 }
             </select>
             <label>Watermark:</label>
-            <input id="watermark" value="Watermark" type="text">
+            <input id="watermark" value="" type="text">
         </div>
         <div class="groupWrapper">
             <label>Height:</label>
@@ -33,7 +33,6 @@
 <script>
     const image = document.getElementById('itemPreview');
     function getImagePreview() {
-        console.log(createBaseUrl());
         fetch(createBaseUrl())
             .then(response => response.body)
             .then(rs => {
@@ -67,6 +66,10 @@
         var fileSelector = document.getElementById("fileName");
         var fileName = fileSelector.options[fileSelector.selectedIndex].value;
         var watermark = document.getElementById("watermark").value;
+        var trimmedwatermark = watermark.replace(/^\s+/, '').replace(/\s+$/, '');
+        if (trimmedwatermark === '') {
+            watermark = 'NULL'
+        }
         var width = document.getElementById("height").value;
         var height = document.getElementById("width").value;
         var format = document.getElementById("format").value;
