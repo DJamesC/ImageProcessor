@@ -1,0 +1,81 @@
+﻿@model ImageProcessor.Models.Images.ProductViewModel;
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <div class="groupWrapper">
+            <label>File Name:</label>
+            <select class="imgSelectBox" id="fileName">
+                @foreach (var file in Model.ProductImages)
+                {
+                    @:<option value=@file>@file</option>
+                }
+            </select>
+            <label>Watermark:</label>
+            <input id="watermark" value="Watermark" type="text">
+        </div>
+        <div class="groupWrapper">
+            <label>Height:</label>
+            <input id="height" value="450" type="number">
+            <label>Width:</label>
+            <input id="width" value="300" type="number">
+            <label>Format:</label>
+            <input id="format" value="png" type="text">
+        </div>
+        <div class="groupWrapper">
+            <button class="actionButton" onclick="getImagePreview()">Preview</button>
+            <button class="actionButton" onclick="getDownload()">Download</button>
+        </div>
+    </div>
+<div>
+    <img class="productItem" id="itemPreview" src="">
+</div>
+
+<script>
+    const image = document.getElementById('itemPreview');
+    function getImagePreview() {
+        console.log(createBaseUrl());
+        fetch(createBaseUrl())
+            .then(response => response.body)
+            .then(rs => {
+                const reader = rs.getReader();
+                return new ReadableStream({
+                    async start(controller) {
+                        while (true) {
+                            const { done, value } = await reader.read();
+                            if (done) {
+                                break;
+                            }
+                            controller.enqueue(value);
+                        }
+                        controller.close();
+                        reader.releaseLock();
+                    }
+                })
+            })
+            .then(rs => new Response(rs))
+            .then(response => response.blob())
+            .then(blob => URL.createObjectURL(blob))
+            .then(url => image.src = url)
+            .catch(console.error);
+    }
+
+    function getDownload() {
+        window.open(createBaseUrl());
+    }
+
+    function createBaseUrl() {
+        var fileSelector = document.getElementById("fileName");
+        var fileName = fileSelector.options[fileSelector.selectedIndex].value;
+        var watermark = document.getElementById("watermark").value;
+        var width = document.getElementById("height").value;
+        var height = document.getElementById("width").value;
+        var format = document.getElementById("format").value;
+        return window.location.origin + "/api/imageprocessor/" + fileName + "/" + width + "/" + height + "/" + watermark + "/" + format;
+    }
+
+</script>
+
+
+
+
+
